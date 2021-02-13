@@ -34,6 +34,7 @@ object Main {
 
     val inputPath = metadata.dataflows.head.sources.head.path
     println(inputPath)
+    println(inputPath)
 
     session.read.json(inputPath).show
 

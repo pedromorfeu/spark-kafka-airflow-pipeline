@@ -17,8 +17,8 @@ case class DataflowTransformation(name: String,
                                   params: DataflowTransformationParam)
 
 case class DataflowTransformationParam(input: String,
-                                       validations: List[DataflowTransformationValidation],
-                                       addFields: List[DataflowTransformationAddField])
+                                       validations: Option[List[DataflowTransformationValidation]],
+                                       addFields: Option[List[DataflowTransformationAddField]])
 
 case class DataflowTransformationValidation(field: String,
                                             validations: List[String])

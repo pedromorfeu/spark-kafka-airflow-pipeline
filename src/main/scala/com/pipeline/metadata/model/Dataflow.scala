@@ -5,8 +5,7 @@ case class DataflowMetadata(dataflows: List[Dataflow])
 case class Dataflow(name: String,
                     sources: List[DataflowSource],
                     transformations: List[DataflowTransformation],
-                    sinks: List[DataflowSink]
-                   )
+                    sinks: List[DataflowSink])
 
 case class DataflowSource(name: String,
                           path: String,
@@ -31,6 +30,3 @@ case class DataflowSink(input: String,
                         paths: List[String],
                         format: String,
                         saveMode: String)
-
-
-

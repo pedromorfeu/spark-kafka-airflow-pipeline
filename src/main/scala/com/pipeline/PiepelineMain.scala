@@ -93,6 +93,31 @@ object PiepelineMain {
 
         notOkDF.show(false)
 
+        // persist
+        dataflow.sinks
+          .foreach(sink => {
+
+            sink.input match {
+              case "ok_with_date" =>
+                sink.paths
+                  .foreach(path =>
+                    okDF
+                      .write
+                      .option("saveMode", sink.saveMode)
+                      .format(sink.format)
+                      .save(path + "/" + sink.name))
+              case "validation_ko" =>
+                sink.paths
+                  .foreach(path =>
+                    notOkDF
+                      .write
+                      .option("saveMode", sink.saveMode)
+                      .format(sink.format)
+                      .save(path + "/" + sink.name))
+            }
+
+          })
+
       })
   }
 

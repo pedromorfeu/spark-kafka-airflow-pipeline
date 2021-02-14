@@ -50,7 +50,7 @@
           "input": "ok_with_date",
           "name": "raw-ok",
           "paths": [
-            "/data/output/events/person"
+            "/Users/pedromorfeu/data/output/events/person"
           ],
           "format": "JSON",
           "saveMode": "OVERWRITE"
@@ -59,7 +59,7 @@
           "input": "validation_ko",
           "name": "raw-ko",
           "paths": [
-            "/data/output/discards/person"
+            "/Users/pedromorfeu/data/output/discards/person"
           ],
           "format": "JSON",
           "saveMode": "OVERWRITE"

@@ -5,7 +5,7 @@
       "sources": [
         {
           "name": "person_inputs",
-          "path": "/Users/pedromorfeu/data/input/events/person/*",
+          "path": "hdfs://localhost:9000/user/pedro/data/input/events/person/*",
           "format": "JSON"
         }
       ],
@@ -50,7 +50,7 @@
           "input": "ok_with_date",
           "name": "raw-ok",
           "paths": [
-            "/Users/pedromorfeu/data/output/events/person"
+            "hdfs://localhost:9000/user/pedro/data/output/events/person"
           ],
           "format": "JSON",
           "saveMode": "OVERWRITE"
@@ -59,7 +59,7 @@
           "input": "validation_ko",
           "name": "raw-ko",
           "paths": [
-            "/Users/pedromorfeu/data/output/discards/person"
+            "hdfs://localhost:9000/user/pedro/data/output/discards/person"
           ],
           "format": "JSON",
           "saveMode": "OVERWRITE"

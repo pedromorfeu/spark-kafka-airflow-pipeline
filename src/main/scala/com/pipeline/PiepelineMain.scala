@@ -103,20 +103,41 @@ object PiepelineMain {
                   .foreach(path =>
                     okDF
                       .write
-                      .option("saveMode", sink.saveMode)
+                      .mode(sink.saveMode)
                       .format(sink.format)
                       .save(path + "/" + sink.name))
+
+                // publish to kafka
+                okDF
+                  .select(to_json(struct("*")).as("value"))
+                  .write
+                  .format("kafka")
+                  .option("kafka.bootstrap.servers", "localhost:9092")
+                  .option("topic", "pipeline-ok")
+                  .save()
+
               case "validation_ko" =>
                 sink.paths
                   .foreach(path =>
                     notOkDF
                       .write
-                      .option("saveMode", sink.saveMode)
+                      .mode(sink.saveMode)
                       .format(sink.format)
                       .save(path + "/" + sink.name))
+
+                // publish to kafka
+                notOkDF
+                  .select(to_json(struct("*")).as("value"))
+                  .write
+                  .format("kafka")
+                  .option("kafka.bootstrap.servers", "localhost:9092")
+                  .option("topic", "pipeline-ko")
+                  .save()
             }
 
           })
+
+
 
       })
   }

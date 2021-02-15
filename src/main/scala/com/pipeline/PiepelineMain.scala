@@ -14,13 +14,16 @@ object PiepelineMain {
 
   def main(args: Array[String]): Unit = {
 
+    val metadataPath = args(0)
+    val kafkaServer = args(1)
+
     val session = SparkSession
       .builder
       .master("local[*]")
       .appName("Pipeline app")
       .getOrCreate()
 
-    val metadataSource = Source.fromFile(args(0))
+    val metadataSource = Source.fromFile(metadataPath)
     val jsonStr = try metadataSource.mkString finally metadataSource.close()
     val liftJsonValue: JValue = net.liftweb.json.parse(jsonStr)
 
@@ -112,7 +115,7 @@ object PiepelineMain {
                   .select(to_json(struct("*")).as("value"))
                   .write
                   .format("kafka")
-                  .option("kafka.bootstrap.servers", "localhost:9092")
+                  .option("kafka.bootstrap.servers", kafkaServer)
                   .option("topic", "pipeline-ok")
                   .save()
 
@@ -130,13 +133,12 @@ object PiepelineMain {
                   .select(to_json(struct("*")).as("value"))
                   .write
                   .format("kafka")
-                  .option("kafka.bootstrap.servers", "localhost:9092")
+                  .option("kafka.bootstrap.servers", kafkaServer)
                   .option("topic", "pipeline-ko")
                   .save()
             }
 
           })
-
 
 
       })

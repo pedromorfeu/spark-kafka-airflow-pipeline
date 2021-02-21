@@ -5,7 +5,10 @@
 
 
 # start airflow
+/Users/pedromorfeu/airflow/start.sh
+/Users/pedromorfeu/airflow/start-scheduler.sh
 
+/Users/pedromorfeu/airflow/run-spark.sh
 
 # kafka
 /Users/pedromorfeu/kafka/kafka_2.12-2.7.0/start-zookeeper.sh

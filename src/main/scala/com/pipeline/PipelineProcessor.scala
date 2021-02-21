@@ -26,7 +26,7 @@ class PipelineProcessor(session: SparkSession, metadataPath: String, kafkaServer
           .filter(_.`type` == "add_fields")
 
         // read sources
-        var dataframe = readSources(session, sources)
+        val dataframe = readSources(session, sources)
           // add fields
           .transform(addFields(fieldsToAdd))
 
@@ -61,8 +61,12 @@ class PipelineProcessor(session: SparkSession, metadataPath: String, kafkaServer
           })
       })
 
+    // caching dataframe as it will be used twice
+    dataframe.cache
+
     logger.info(s"conditions: $conditions")
-    val okDF = dataframe.filter(conditions.map(_._1).mkString(" and "))
+    val okDF = dataframe
+      .filter(conditions.map(_._1).mkString(" and "))
     okDF.show(false)
 
     var notOkDF = dataframe

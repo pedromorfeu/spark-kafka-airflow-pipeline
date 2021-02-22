@@ -1,0 +1,70 @@
+{
+  "dataflows": [
+    {
+      "name": "prueba-acceso",
+      "sources": [
+        {
+          "name": "person_inputs",
+          "path": "hdfs://localhost:9000/user/pedro/data/input/events/person/*",
+          "format": "JSON"
+        }
+      ],
+      "transformations": [
+        {
+          "name": "validation",
+          "type": "validate_fields",
+          "params": {
+            "input": "person_inputs",
+            "validations": [
+              {
+                "field": "office",
+                "validations": [
+                  "notEmpty"
+                ]
+              },
+              {
+                "field": "age",
+                "validations": [
+                  "notNull"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "ok_with_date",
+          "type": "add_fields",
+          "params": {
+            "input": "validation_ok",
+            "addFields": [
+              {
+                "name": "dt",
+                "function": "current_timestamp"
+              }
+            ]
+          }
+        }
+      ],
+      "sinks": [
+        {
+          "input": "ok_with_date",
+          "name": "raw-ok",
+          "paths": [
+            "hdfs://localhost:9000/user/pedro/data/output/events/person"
+          ],
+          "format": "JSON",
+          "saveMode": "OVERWRITE"
+        },
+        {
+          "input": "validation_ko",
+          "name": "raw-ko",
+          "paths": [
+            "hdfs://localhost:9000/user/pedro/data/output/discards/person"
+          ],
+          "format": "JSON",
+          "saveMode": "OVERWRITE"
+        }
+      ]
+    }
+  ]
+}

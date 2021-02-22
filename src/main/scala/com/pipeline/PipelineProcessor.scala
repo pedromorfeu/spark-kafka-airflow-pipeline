@@ -1,6 +1,6 @@
 package com.pipeline
 
-import com.pipeline.PiepelineMain.logger
+import com.pipeline.PipelineApp.logger
 import com.pipeline.metadata.model._
 import net.liftweb.json.{DefaultFormats, JValue}
 import org.apache.spark.sql.functions._
@@ -20,12 +20,12 @@ class PipelineProcessor(session: SparkSession, metadataPath: String, kafkaServer
         // dataflow processing
         logger.info(s"processing dataflow ${dataflow.name}")
 
-        val sources = dataflow.sources
         val transformations: Seq[DataflowTransformation] = dataflow.transformations
         val fieldsToAdd = transformations
           .filter(_.`type` == "add_fields")
 
         // read sources
+        val sources = dataflow.sources
         val dataframe = readSources(session, sources)
           // add fields
           .transform(addFields(fieldsToAdd))

@@ -3,9 +3,9 @@ package com.pipeline
 import org.apache.log4j.Logger
 import org.apache.spark.sql.SparkSession
 
-object PiepelineMain {
+object PipelineApp {
 
-  val logger: Logger = Logger.getLogger(PiepelineMain.getClass)
+  val logger: Logger = Logger.getLogger(PipelineApp.getClass)
 
   def main(args: Array[String]): Unit = {
 
